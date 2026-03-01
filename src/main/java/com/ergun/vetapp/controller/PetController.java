@@ -5,7 +5,9 @@ import com.ergun.vetapp.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pets")
@@ -23,5 +25,14 @@ public class PetController {
     @DeleteMapping("/{id}")
     public void deletePet(@PathVariable Long id) {
         petRepository.deleteById(id);
+    }
+
+    @GetMapping("/stats")
+    public Map<String, Long> getStats() {
+        long petCount = petRepository.count();
+        // Randevu sayısını da buradan veya AppointmentRepository'den alabiliriz
+        Map<String, Long> stats = new HashMap<>();
+        stats.put("totalPets", petCount);
+        return stats;
     }
 }

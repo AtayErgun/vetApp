@@ -1,0 +1,7 @@
+package com.ergun.vetapp.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BlogPostController {
+}
