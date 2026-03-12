@@ -1,7 +1,9 @@
 package com.ergun.vetapp.controller;
 
+import com.ergun.vetapp.dto.PublicAppointmentRequest;
 import com.ergun.vetapp.entity.Appointment;
 import com.ergun.vetapp.repository.AppointmentRepository;
+import com.ergun.vetapp.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,28 +14,14 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class AppointmentController {
 
-    @Autowired
-    private AppointmentRepository appointmentRepository;
+    private final AppointmentService appointmentService;
 
-    @GetMapping
-    public List<Appointment> getAll() {
-        return appointmentRepository.findAll();
+    public AppointmentController(AppointmentService appointmentService) {
+        this.appointmentService = appointmentService;
     }
 
-    @PostMapping
-    public Appointment create(@RequestBody Appointment appointment) {
-        return appointmentRepository.save(appointment);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        appointmentRepository.deleteById(id);
-    }
-
-    @PutMapping("/{id}/status")
-    public Appointment updateStatus(@PathVariable Long id, @RequestParam String status) {
-        Appointment app = appointmentRepository.findById(id).orElseThrow();
-        app.setStatus(status);
-        return appointmentRepository.save(app);
+    @PostMapping("/public")
+    public Appointment createPublicAppointment(@RequestBody PublicAppointmentRequest request) {
+        return appointmentService.createPublicAppointment(request);
     }
 }

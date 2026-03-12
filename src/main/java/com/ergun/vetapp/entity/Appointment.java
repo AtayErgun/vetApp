@@ -14,7 +14,7 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dateTime; // Tarih ve Saat
     private String reason;          // Muayene nedeni
 
