@@ -15,13 +15,30 @@ import java.util.List;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final AppointmentRepository appointmentRepository;
 
-    public AppointmentController(AppointmentService appointmentService) {
+    public AppointmentController(AppointmentService appointmentService, AppointmentRepository appointmentRepository) {
         this.appointmentService = appointmentService;
+        this.appointmentRepository = appointmentRepository;
     }
 
     @PostMapping("/public")
     public Appointment createPublicAppointment(@RequestBody PublicAppointmentRequest request) {
         return appointmentService.createPublicAppointment(request);
+    }
+
+    @GetMapping // Bu metodun olduğundan emin ol
+    public List<Appointment> getAll() {
+        return appointmentRepository.findAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        appointmentService.deleteAppointment(id);
+    }
+
+    @PutMapping("/{id}/status")
+    public Appointment updateStatus(@PathVariable Long id, @RequestParam String status) {
+        return appointmentService.updateStatus(id, status);
     }
 }
